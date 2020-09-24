@@ -1,4 +1,4 @@
-![Banner Image](banner.png?raw=true)
+![Banner Image](./banner.png?raw=true)
 
 # Drawbot Experiments
 
