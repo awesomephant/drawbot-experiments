@@ -1,4 +1,4 @@
-![Banner Image](./banner.png?raw=true)
+![Banner Image](https://github.com/awesomephant/drawbot-experiments/blob/main/banner.png?raw=true)
 
 # Drawbot Experiments
 
