@@ -17,7 +17,7 @@ class Space:
 
 
 # Configuration
-output_path = '../output/tmp/'
+output_path = '../output/'
 input_path = '../input/'
 
 padding = 1
@@ -58,10 +58,10 @@ def draw():
 
     final_spaces = final_spaces + spaces
 
-    fill(0.05, 0.01, .95, 1)
+    primary = (0.95, 0.41, .05, 1)
+    fill(*primary)
     rect(0, 0, w, h)
-
-    colors = [(0.05, 0.01, .95, 1), (.93, .93, .93, 1)]
+    colors = [primary, (.93, .93, .93, 1)]
     for s in final_spaces:
         random.shuffle(colors)
         if s.w > s.h:
@@ -76,7 +76,5 @@ def draw():
         rounded_rect(s.x, s.y, s.w - padding, s.h - padding, radius, .3)
 
 
-for i in range(20):
-    draw()
-
+draw()
 saveImage(output_path + ts + ".png")
