@@ -1,5 +1,7 @@
 output/
 input/
 scripts/__pycache__/
+scripts/util/__pycache__/
 *.prproj
+
 Adobe Premiere Pro Auto-Save/
