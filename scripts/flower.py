@@ -4,6 +4,7 @@ from util.coin import coin
 import random
 import datetime
 import math
+from hsluv import *
 
 output_path = '../output/'
 ts = str(datetime.datetime.now().timestamp())
@@ -45,10 +46,13 @@ def draw():
         # stroke(0, 0, 0, 1)
         oval(center[0] - c, center[1] - c, c * 2, c * 2)
         for i in range(dot_count):
-            color = random.choice(colors)
+            
+            color = hsluv_to_rgb([2 * i + 80, 90, 60])
+
+            # color = random.choice(colors)
             angle = (((360 / dot_count) * i) +
                      (angle_offset * r)) * (math.pi/180)
-            print(angle)
+            print(color)
             adjacent = c * math.cos(angle)
             opposite = c * math.sin(angle)
 
@@ -56,6 +60,7 @@ def draw():
             y = center[1] + opposite - dot_radius
 
             stroke(1, 1, 1, 0)
+            # fill(.008, .2588 * .2 * r, 1 - r * .2 * i)
             fill(*color)
             if (coin(.8)):
                 oval(x, y, dot_radius * 2, dot_radius * 2)
