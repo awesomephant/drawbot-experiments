@@ -3,5 +3,7 @@ input/
 scripts/__pycache__/
 scripts/util/__pycache__/
 *.prproj
+*.indd
+documentation/
 
 Adobe Premiere Pro Auto-Save/

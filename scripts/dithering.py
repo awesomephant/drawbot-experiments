@@ -63,14 +63,15 @@ def draw_image(input, target_size):
         #print(pixel[:3])
         average = sum(pixel[:3]) / (255 * 3) - .01
         if (average < thresholds[y][x]):
-            fill(.105, .1, 1, 1)
+            # fill(.105, .1, 1, 1)
+            fill(0, 0, 0, 1)
         else:
             fill(1, 1, 1, 1)
 
-        oval(x * output_scale + padding, y * output_scale + padding, output_scale, output_scale)
-        #rect(x * output_scale + padding, y * output_scale + padding, output_scale, output_scale)
+        # oval(x * output_scale + padding, y * output_scale + padding, output_scale, output_scale)
+        rect(x * output_scale + padding, y * output_scale + padding, output_scale, output_scale)
 
 
 # draw_image("dom-hill-nimElTcTNyY-unsplash.jpg", 50)
-draw_image("grad-2.png", 220)
+draw_image("type3.png", 260)
 saveImage(output_path + ts + ".png")

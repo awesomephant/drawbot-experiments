@@ -16,12 +16,12 @@ output_path = '../output/'
 input_path = '../input/'
 ts = str(datetime.datetime.now().timestamp())
 
-size(1000, 1000)
+size(1400, 1000)
 fill(0, 0, 0, 1)
-rect(0, 0, 1000, 1000)
 
 
 def draw_image(input, target_size):
+    rect(0, 0, 2000, 1000)
     input_image = Image.open(input_path + input)
     image = input_image.rotate(180)
     image.thumbnail((target_size, target_size), Image.ANTIALIAS)
@@ -59,10 +59,10 @@ def draw_image(input, target_size):
             rect(x * scaleX, y * scaleY, scaleX * average, scaleY)
 
 
-draw_image("C_Venera09_Oct26e.jpg", 10)
-draw_image("C_Venera09_Oct26e.jpg", 1000)
-draw_image("C_Venera09_Oct26e.jpg", 10)
-draw_image("Capture.PNG", 20)
-draw_image("V_Venera9c.jpg", 5)
-draw_image("Capture.PNG", 20)
+# draw_image("C_Venera09_Oct26e.jpg", 10)
+# draw_image("C_Venera09_Oct26e.jpg", 1000)
+# draw_image("C_Venera09_Oct26e.jpg", 10)
+# draw_image("Capture.PNG", 20)
+# draw_image("V_Venera9c.jpg", 5)
+draw_image("type3.png", 30)
 saveImage(output_path + ts + ".png")

@@ -4,17 +4,15 @@ import random
 import numpy as np
 import math
 
-from numpy import linalg
 from numpy.lib.shape_base import column_stack
 from numpy.linalg.linalg import norm
 
-output_path = "../output/cube/"
+output_path = "./output/cube/"
 input_path = "../input/"
 ts = str(datetime.datetime.now().timestamp())
-canvas_width = 2800
-canvas_height = 2200
+canvas_width = 3100
+canvas_height = 2700
 z = 1000
-
 draw_points = True
 draw_verts = True
 draw_faces = True
@@ -42,7 +40,6 @@ class ProjectedPoint:
         self.p = p
         self.visible = visible
 
-
 class Cube:
     """
     Produces a basic representation of a cube.
@@ -53,7 +50,8 @@ class Cube:
         self.y = y
         self.w = w
         self.h = h
-        self.fill = (random.random(), 0.8, random.random(), 0.98)
+        #self.fill = (1, 1, 1, 1)
+        self.fill = (random.uniform(.8, .99), random.uniform(.7, .99), random.uniform(.2, .99), 0.98)
 
         # Let's write down the 8 points of the cube
         # front to back, starting bottom left (origin), clockwise
@@ -155,20 +153,21 @@ def project(p):
 
 
 def buildScene():
-    for i in range(100):
-        x = random.randint(-canvas_width, canvas_width)
-        y = random.randint(0, canvas_height)
-        z = 1000
-        w = random.randint(200, 600)
-        h = random.randint(200, 600)
-        d = random.randint(200, 600)
+    for i in range(85):
+        x = random.randint(-1000, 3000)
+        y = random.randint(0, canvas_height + 3000)
+        z = random.randint(500, 1500)
+        w = random.randint(200, 800)
+        h = random.randint(200, 800)
+        d = random.randint(200, 800)
         c = Cube(x, y, z, w, h, d)
         objects.append(c)
 
 def draw():
     newDrawing()
     size(canvas_width, canvas_height)
-    fill(0.9, 0.9, 0.91, 1)
+    # fill(0.9, 0.9, 0.91, 1)
+    fill(1, 1, 1, 1)
     rect(0, 0, canvas_width, canvas_height)
 
     # First we throw some objects into the scene
@@ -233,6 +232,8 @@ def draw():
         fill(0, 0, 0, 1)
         for v in obj.verts:
             # print("Drawing vert")
+            stroke(0)            
+            strokeWidth(2)            
             a = obj.points[v[0]]
             b = obj.points[v[1]]
             if a.visible and b.visible and draw_verts:
@@ -250,19 +251,21 @@ def draw():
             if p.visible:
                 # print("Drawing point")
                 if draw_points:
-                    oval(point[0] - 4, point[1] - 4, 8, 8)
+                    oval(point[0] - 8, point[1] - 8, 16, 16)
                 # text(str(i), (point[0] - 10, point[1]))
 
 
-buildScene()
-angle = .5
-frame_count = 250
+angle = -45
+frame_count = 1
 for i in range(frame_count):
+    buildScene()
     print("Frame ", i, "/", frame_count)
     for obj in objects:
         rotate(obj, (.2, 1, -.2), angle)
     draw()
     saveImage(output_path + "/frames/frame_" + str(i) + ".png")
+    objects = []
+
 
 print("Done.")
 # saveImage(output_path + str(ts)  + ".png")
