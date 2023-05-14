@@ -3,13 +3,14 @@ from util.mark import mark
 import random
 import datetime
 import math
+from util.grid_lines import draw_grid
 
-output_path = '../output/'
+output_path = '../output/riley/'
 input_path = '../input/'
 ts = str(datetime.datetime.now().timestamp())
 markPoints = False
 w = 1500
-h = 1000
+h = 1200
 
 
 def isEven(n):
@@ -20,12 +21,10 @@ def isEven(n):
 
 margin = 50
 
-def wave(p0, p1, amplitude, frequency, phase=0, width=20, point_count=500):
-    fill(1, 1, 1, 1)
-    stroke(1, 1, 1, 0)
+def wave(p0, p1, amplitude, frequency, phase=0, width=20, point_count=50):
     points = []
-    for n in range(point_count):
-        x = ((p1[0] - p0[0]) / point_count) * n + margin
+    for n in range(point_count + 1):
+        x = p0[0] + ((p1[0] - p0[0]) / point_count) * n
         y = amplitude * math.sin(2 * math.pi * frequency * x + phase)
         y += p0[1]
         points.append((x, y))
@@ -33,7 +32,6 @@ def wave(p0, p1, amplitude, frequency, phase=0, width=20, point_count=500):
     path = BezierPath()
     path.moveTo(points[0])
     for p in points:
-        #mark(p)
         path.lineTo(p)
     
     path.lineTo((points[-1][0],points[-1][1] + width))
@@ -43,22 +41,35 @@ def wave(p0, p1, amplitude, frequency, phase=0, width=20, point_count=500):
     drawPath(path)
 
 
-def draw():
-    line_count = 20
+def draw(frame):
+    line_count = 24
+    blendMode('multiply')
+    fill(.9, .9, .9, 1)
+    rect(0, 0, w, h)
+   
+    # fill(0, 0, 0, 0)
+    stroke(.7,.7,.7,1)
+    fill(.8, .8, .8, 0)
+    strokeWidth(1)
+    draw_grid(margin, margin, w - margin * 2, h - margin * 2, 10, line_count)
+    # resolution = math.floor(5 + math.sin(frame * .1) * 50)
+
     for i in range(line_count):
-        print("Drawing line " + str(i))
-        a = 50
-        phase = .1 * math.sin(2 * math.pi * .02 * i + 0)
-        #phase = .002 * i
+        a = 35
         y = ((h - margin * 2.5) / line_count) * i + margin * 1.5
-        wave((margin, y), (w - margin, y), a, .003, phase * i, 30, 40)
+        phase = 5 * math.sin(.035 * i + frame * .01)
+        width = (1 + math.sin((i + frame * .5) * .2)) * 17 + 1
+        resolution = 30
+        stroke(0,0,0,0)
+        fill(.95, .3, .0, 1)
+        wave((margin, y), (w - margin, y), a, .0025, phase, width, resolution)
 
 
-size(w, h)
-#fill(.99, .99, .99, 1)
-fill(0, 0, 0, 1)
-rect(0, 0, w, h)
+frame_count = 240
 
-draw()
-
-saveImage(output_path + ts + ".png")
+for i in range(frame_count):
+    newDrawing()
+    size(w, h)
+    print("Frame ", i, "/", frame_count)
+    draw(i)
+    saveImage(output_path + "/frame_" + str(i) + ".png")
