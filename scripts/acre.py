@@ -17,17 +17,26 @@ ts = str(datetime.datetime.now().timestamp())
 
 canvas_width = 5000
 # canvas_height = canvas_width * math.sqrt(2)
-canvas_height = canvas_width / 4
+canvas_height = canvas_width / 2
 margin = 25
 cols = 100
 rows = 100
 
-def fill_hatching(x,y,width,height, offset=1):
-    lineCount = 1
+def fill_hatching(x,y,width,height, offset=1, skip_bottom=False, skip_top=False):
+    lineCount = 3
+    sb = 0
+    st = 0
     # sw = (math.sin(y / 5) + .5)  * 5
     # sw = (((y - margin) / canvas_height) * 10)
-    strokeWidth(6)
-    for i in range(lineCount):
+    if (skip_bottom):
+        sb = 1
+
+    if (skip_top):
+        st = -1
+    
+    strokeWidth(4)
+    
+    for i in range(sb, lineCount + st):
         y0 = y + (height / lineCount * i)
         y1 = y + (height / lineCount * (i + offset))
         x0 = x
@@ -55,8 +64,14 @@ def draw_logo(pixels, x0, y0, width, height, rows, cols):
         x = (i % rows) * (width / cols) + x0
         y = y0 + (math.floor(i / rows) * (height / cols))
         if(sum(pixels[i]) < 700):
-            rect(x,y,cell_width, cell_height)
-            # fill_hatching(x,y,cell_width, cell_height, 1)
+            # rect(x,y,cell_width, cell_height)
+            skip_bottom = False
+            skip_top = False
+            if(pixels[i][0] > 100):
+                skip_bottom = True
+            if(pixels[i][1] > 100):
+                skip_top = True
+            fill_hatching(x,y,cell_width, cell_height, 1, skip_bottom=skip_bottom, skip_top=skip_top)
 
 def draw():
     fill(1, 1, 1, 1)
@@ -68,5 +83,5 @@ def draw():
 size(canvas_width, canvas_height)
 
 draw()
+# saveImage(output_path + "test" + ".svg")
 saveImage(output_path + "test" + ".png")
-# saveImage(output_path + ts + ".png")
