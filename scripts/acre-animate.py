@@ -14,9 +14,9 @@ pixels = bitmap.reshape((rows*cols, 3))
 output_path = "../output/acre/"
 ts = str(datetime.datetime.now().timestamp())
 
-canvas_width = 200
+canvas_width = 3000
 # canvas_height = canvas_width * math.sqrt(2)
-canvas_height = canvas_width / 2
+canvas_height = canvas_width * .66
 margin = 0
 cols = 100
 rows = 100
@@ -37,7 +37,7 @@ def fill_hatching(x,y,width,height, offset=1, skip_bottom=False, skip_top=False)
     if (skip_top):
         st = -1
     
-    strokeWidth(.5)
+    strokeWidth(.003 * y)
     
     for i in range(sb, lineCount + st):
         y0 = y + (height / lineCount * i)
@@ -48,8 +48,6 @@ def fill_hatching(x,y,width,height, offset=1, skip_bottom=False, skip_top=False)
         lines.append([[x0,y0], [x1, y1]])
 
 def draw_grid(x0, y0, width, height, rows, cols):
-    fill(0,0,0,0)
-    stroke(.1,.1,.1,.5)
     strokeWidth(1)
     rect(x0, y0, width, height)
     for i in range(cols):
@@ -60,8 +58,6 @@ def draw_grid(x0, y0, width, height, rows, cols):
         line((x0, y), (width, y))
 
 def draw_logo(pixels, x0, y0, width, height, rows, cols):
-    # fill(0,0,0,1)
-    # stroke(0,0,0,1)
     cell_width = width / cols
     cell_height = height / rows
     for i in range(len(pixels)):
@@ -78,9 +74,11 @@ def draw_logo(pixels, x0, y0, width, height, rows, cols):
             # rect(x,y,cell_width, cell_height)
 
 def draw():
-    rect(0, 0, canvas_width, canvas_height)
-    fill(1, 1, 1, 1)
+    # rect(0, 0, canvas_width, canvas_height)
+    # stroke(.1,.1,.1,.9)
     # draw_grid(margin, margin, canvas_width - margin * 2, canvas_height - margin * 2, rows, cols)
+    # fill(1, 1, 1, 1)
+    stroke(0,0,0,1)
     draw_logo(pixels, margin, margin, canvas_width - margin * 2, canvas_height - margin * 2, rows, cols)
 
 
@@ -93,7 +91,7 @@ draw()
 #     json.dump(lines, f, indent=2)
 # saveImage(output_path + "acre-hatched" + ".png") 
 
-saveImage(output_path + "test" + ".png")
+saveImage(output_path + "test" + ".svg")
 
 # Size: LineCount / StrokeWidth
 # Small: 1 / 5
