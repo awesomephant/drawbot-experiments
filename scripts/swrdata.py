@@ -77,6 +77,19 @@ red = {
     'dark5': '#3F150D'
 }
 
+apple= {
+    'light5': '#EFFBEA',
+    'light4': '#C5F0B1',
+    'light3': '#98E472',
+    'light2': '#65D62B',
+    'light1': '#5BC128',
+    'base': '#53AD26',
+    'dark1': '#4A9825',
+    'dark2': '#438523',
+    'dark3': '#3B7122',
+    'dark4': '#335E20',
+    'dark5': '#2C4C1F'
+}
 plum = {
     "light5": '#F1CCFF',
     "light4": '#E9AEFF',
@@ -97,8 +110,8 @@ ts = str(datetime.datetime.now().timestamp())
 canvas_width = 1600
 canvas_height = 1200
 margin = 0
-cols = math.floor(16 * 1.5)
-rows = math.floor(12 * 1.5)
+cols = math.floor(16 * 1.2)
+rows = math.floor(12 * 1.2)
 lines = []
 
 class Line():
@@ -121,6 +134,24 @@ def draw_pie(x,y,r,angle,rotate):
     path.lineTo((x,y))
     drawPath(path)
         
+def draw_arrow(x,y,r,angle,stroke_width):
+    strokeWidth(stroke_width)
+    with savedState():
+        translate(x,y)
+        rotate(angle)
+        apex = (0, r - stroke_width)
+
+        path = BezierPath()
+        path.moveTo((0, -r))
+        path.lineTo(apex)
+        drawPath(path)
+
+        path = BezierPath()
+        path.moveTo((-r + stroke_width / 2, -stroke_width / 2))
+        path.lineTo(apex)
+        path.lineTo((r - stroke_width / 2, -stroke_width / 2))
+        drawPath(path)
+    
 
 def draw_grid(x0, y0, width, height, rows, cols):
     rect(x0, y0, width, height)
@@ -133,8 +164,8 @@ def draw_grid(x0, y0, width, height, rows, cols):
 
 
 def draw():
-    fill(.6,.6,.6, 1)
-    # fill(*hex_to_rgb(forest["dark5"]), 1)
+    # fill(.6,.6,.6, 1)
+    fill(*hex_to_rgb(forest["dark3"]), 1)
     # fill(*hex_to_rgb(violet["dark5"]), 1)
     rect(0, 0, canvas_width, canvas_height)
     padding = 4
@@ -148,29 +179,33 @@ def draw():
         r = canvas_width / cols * .5 - padding
 
         # fill(*hex_to_rgb(red["dark5"]), .2 + math.asin(x / cols))
-        fill(*hex_to_rgb(plum["light2"]), 1)
+        fill(*hex_to_rgb(forest["dark5"]), 1)
+        strokeWidth(0)
+        stroke(0,0,0,0)
         a = math.sin(x / cols)
-        r = (canvas_width / cols * .5 - padding)
-        r = (canvas_width / cols * 1 - padding) * math.sin(y / rows / 2)
-        # draw_pie(x_scaled,y_scaled,r, 1, 0)
+        r = (canvas_width / cols * .5 + 5)
+        # r = (canvas_width / cols * 1 - padding) * math.sin(y / rows / 2)
+        draw_pie(x_scaled,y_scaled,r, 1, 0)
 
 
-        fill(*hex_to_rgb(forest["dark4"]), 1)
-        a = math.cos(x / cols * 1) - .2
-        r = (canvas_width / cols * .5 - padding)
+        stroke(*hex_to_rgb(forest["dark3"]), 1)
+        fill(0,0,0,0)
+        a = (math.cos(x / cols) + math.sin(y / rows)) * 360 * .5
+        r = (canvas_width / cols * .5 - padding * 2)
         # draw_pie(x_scaled,y_scaled,r, a, 0)
+        draw_arrow(x_scaled, y_scaled, r, a, 6)
 
-        fill(*hex_to_rgb(forest["base"]), 1)
-        a = random.uniform(.1,.3)
+        # fill(*hex_to_rgb(forest["base"]), 1)
+        # a = random.uniform(.1,.3)
         # draw_pie(x_scaled,y_scaled,r, a, 0)
     
     fill(1, 1, 1, 0)
-    stroke(.35,.35,.35,1)
-    stroke(.0,.0,.0,.5)
-    # stroke(*hex_to_rgb(forest["dark1"]), 1)
+    stroke(1,1,1,.2)
+    # stroke(.0,.0,.0,.5)
+    # stroke(*hex_to_rgb(forest["dark5"]), 1)
     strokeWidth(1)
     draw_grid(margin, margin, canvas_width - margin * 2, canvas_height - margin * 2, rows, cols)
 
 size(canvas_width, canvas_height)
 draw()
-saveImage(output_path + "swr-test-7" + ".png")
+saveImage(output_path + "swr-test-12" + ".png")
